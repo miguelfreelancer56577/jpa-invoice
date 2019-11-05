@@ -8,14 +8,23 @@
 
 package com.github.mangelt.jpa.invoice.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import lombok.Data;
 
 
 /**
@@ -46,189 +55,38 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 })
 @XmlRootElement(name = "Concepto")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@Entity(name = "Concepto")
+@Table(name = "concepto")
+@Data
 public class Concepto {
 
+	@Id
+    @Column(name = "id", nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @XmlTransient
+    protected int id;
     @XmlValue
+    @Column(name = "value")
     protected String value;
-    @XmlAttribute(name = "noIdentificacion")
+    @XmlAttribute(name = "NoIdentificacion")
+    @Column(name = "no_identificacion")
     protected String noIdentificacion;
-    @XmlAttribute(name = "unidad")
+    @XmlAttribute(name = "Unidad")
     protected String unidad;
-    @XmlAttribute(name = "cantidad")
+    @XmlAttribute(name = "Cantidad")
     protected Float cantidad;
-    @XmlAttribute(name = "importe")
+    @XmlAttribute(name = "Importe")
     protected Float importe;
-    @XmlAttribute(name = "valorUnitario")
+    @XmlAttribute(name = "ValorUnitario")
+    @Column(name = "valor_unitario")
     protected Float valorUnitario;
-    @XmlAttribute(name = "descripcion")
+    @XmlAttribute(name = "Descripcion")
     protected String descripcion;
-
-    /**
-     * Obtiene el valor de la propiedad value.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getValue() {
-        return value;
-    }
-
-    /**
-     * Define el valor de la propiedad value.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad noIdentificacion.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getNoIdentificacion() {
-        return noIdentificacion;
-    }
-
-    /**
-     * Define el valor de la propiedad noIdentificacion.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setNoIdentificacion(String value) {
-        this.noIdentificacion = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad unidad.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getUnidad() {
-        return unidad;
-    }
-
-    /**
-     * Define el valor de la propiedad unidad.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setUnidad(String value) {
-        this.unidad = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad cantidad.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Float }
-     *     
-     */
-    public Float getCantidad() {
-        return cantidad;
-    }
-
-    /**
-     * Define el valor de la propiedad cantidad.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Float }
-     *     
-     */
-    public void setCantidad(Float value) {
-        this.cantidad = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad importe.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Float }
-     *     
-     */
-    public Float getImporte() {
-        return importe;
-    }
-
-    /**
-     * Define el valor de la propiedad importe.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Float }
-     *     
-     */
-    public void setImporte(Float value) {
-        this.importe = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad valorUnitario.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Float }
-     *     
-     */
-    public Float getValorUnitario() {
-        return valorUnitario;
-    }
-
-    /**
-     * Define el valor de la propiedad valorUnitario.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Float }
-     *     
-     */
-    public void setValorUnitario(Float value) {
-        this.valorUnitario = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad descripcion.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    /**
-     * Define el valor de la propiedad descripcion.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setDescripcion(String value) {
-        this.descripcion = value;
-    }
+    @XmlAttribute(name = "ClaveProdServ")
+    @Column(name = "clave_producto_servicio")
+    protected String claveProdServ;
+    @XmlAttribute(name = "ClaveUnidad")
+    @Column(name = "clave_unidad")
+    protected String claveUnidad;
 
 }

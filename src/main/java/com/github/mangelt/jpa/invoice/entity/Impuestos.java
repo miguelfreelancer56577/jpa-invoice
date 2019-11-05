@@ -8,14 +8,30 @@
 
 package com.github.mangelt.jpa.invoice.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import lombok.Data;
+import lombok.ToString;
 
 
 /**
@@ -42,124 +58,61 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "retenciones",
-    "traslados"
+    "Retenciones",
+    "Traslados"
 })
 @XmlRootElement(name = "Impuestos")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@Entity(name = "Impuestos")
+@Table(name = "impuestos")
+@Data
+@ToString
 public class Impuestos {
+	
+	@Id
+    @Column(name = "id", nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	@XmlTransient
+    protected int id;
 
     @XmlElement(name = "Retenciones", required = true)
+    @Transient
     protected Retenciones retenciones;
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+    protected List<Retencion> retencionesList;
+    
     @XmlElement(name = "Traslados", required = true)
+    @Transient
     protected Traslados traslados;
-    @XmlAttribute(name = "totalImpuestosRetenidos")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+    protected List<Traslado> trasladosList;
+    
+    
+    @XmlAttribute(name = "TotalImpuestosRetenidos")
+    @Column(name = "total_impuestos_retenidos")
     protected Float totalImpuestosRetenidos;
-    @XmlAttribute(name = "totalImpuestosTrasladados")
+    @XmlAttribute(name = "TotalImpuestosTrasladados")
+    @Column(name = "total_impuestos_trasladados")
     protected Float totalImpuestosTrasladados;
-
-    /**
-     * Obtiene el valor de la propiedad retenciones.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Retenciones }
-     *     
-     */
-    public Retenciones getRetenciones() {
-        return retenciones;
+    
+    public void setRetenciones(Retenciones retenciones){
+    	this.retenciones = retenciones;
+    	this.retencionesList = retenciones.getRetencion();
     }
-
-    /**
-     * Define el valor de la propiedad retenciones.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Retenciones }
-     *     
-     */
-    public void setRetenciones(Retenciones value) {
-        this.retenciones = value;
+    
+    public void setRetencionesList(List<Retencion> retencionList){
+    	this.retenciones = Retenciones.builder().retencion(retencionList).build();
+    	this.retencionesList = retencionList;
     }
-
-    /**
-     * Obtiene el valor de la propiedad traslados.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Traslados }
-     *     
-     */
-    public Traslados getTraslados() {
-        return traslados;
+    
+    public void setTraslados(Traslados traslados){
+    	this.traslados = traslados;
+    	this.trasladosList = traslados.getTraslado();
     }
-
-    /**
-     * Define el valor de la propiedad traslados.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Traslados }
-     *     
-     */
-    public void setTraslados(Traslados value) {
-        this.traslados = value;
+    
+    public void setTrasladosList(List<Traslado> trasladosList){
+    	this.traslados = Traslados.builder().traslado(trasladosList).build();
+    	this.trasladosList = trasladosList;
     }
-
-    /**
-     * Obtiene el valor de la propiedad totalImpuestosRetenidos.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Float }
-     *     
-     */
-    public Float getTotalImpuestosRetenidos() {
-        return totalImpuestosRetenidos;
-    }
-
-    /**
-     * Define el valor de la propiedad totalImpuestosRetenidos.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Float }
-     *     
-     */
-    public void setTotalImpuestosRetenidos(Float value) {
-        this.totalImpuestosRetenidos = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad totalImpuestosTrasladados.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Float }
-     *     
-     */
-    public Float getTotalImpuestosTrasladados() {
-        return totalImpuestosTrasladados;
-    }
-
-    /**
-     * Define el valor de la propiedad totalImpuestosTrasladados.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Float }
-     *     
-     */
-    public void setTotalImpuestosTrasladados(Float value) {
-        this.totalImpuestosTrasladados = value;
-    }
-
-	@Override
-	public String toString() {
-		return "Impuestos [retenciones=" + retenciones + ", traslados="
-				+ traslados + ", totalImpuestosRetenidos="
-				+ totalImpuestosRetenidos + ", totalImpuestosTrasladados="
-				+ totalImpuestosTrasladados + "]";
-	}
     
 }

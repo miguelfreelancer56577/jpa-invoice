@@ -5,10 +5,29 @@
 // Generado el: 2017.09.06 a las 02:04:29 PM CDT 
 //
 
-
 package com.github.mangelt.jpa.invoice.entity;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -17,10 +36,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import lombok.AccessLevel;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -68,621 +92,131 @@ import lombok.ToString;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "emisor",
-    "receptor",
-    "conceptos",
-    "impuestos",
-    "complemento"
-})
+ @XmlType(name = "", propOrder = {
+     "Emisor",
+     "Receptor",
+     "Conceptos",
+     "Impuestos",
+     "Complemento"
+ })
 @XmlRootElement(name = "Comprobante")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @ToString
+@Entity(name = "Comprobante")
+@Table(name = "comprobante")
+@Data
 public class Comprobante {
 
-	@Getter
-	@Setter
 	@XmlTransient
-	@Id
-	protected String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_comprobante", nullable = false, unique = true)
+	protected int id;
     @XmlElement(name = "Emisor", required = true)
+    @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
+    @JoinColumn(nullable = false, columnDefinition = "id")
     protected Emisor emisor;
     @XmlElement(name = "Receptor", required = true)
+    @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
+    @JoinColumn( columnDefinition = "id", nullable = false)
     protected Receptor receptor;
     @XmlElement(name = "Conceptos", required = true)
-    protected Conceptos conceptos;
+    @Transient
+    @Setter(value = AccessLevel.NONE)
+    protected Conceptos concepto;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @Setter(value = AccessLevel.NONE)
+    protected List<Concepto> conceptos;
     @XmlElement(name = "Impuestos", required = true)
+    @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn( columnDefinition = "id", nullable = false)
     protected Impuestos impuestos;
     @XmlElement(name = "Complemento", required = true)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false, orphanRemoval = true)
+    @JoinColumn(columnDefinition = "id", nullable = false)
     protected Complemento complemento;
-    @XmlAttribute(name = "certificado")
+    @XmlAttribute(name = "Certificado")
+    @Column(name = "certificado")
     protected String certificado;
-    @XmlAttribute(name = "noCertificado")
+    @XmlAttribute(name = "NoCertificado")
+    @Column(name = "no_certificado")
     protected String noCertificado;
-    @XmlAttribute(name = "condicionesDePago")
+    @XmlAttribute(name = "CondicionesDePago")
+    @Column(name = "condiciones_de_pago")
     protected String condicionesDePago;
-    @XmlAttribute(name = "descuento")
+    @XmlAttribute(name = "Descuento")
+    @Column(name = "descuento")
     protected Float descuento;
-    @XmlAttribute(name = "subTotal")
+    @XmlAttribute(name = "SubTotal")
+    @Column(name = "subtotal")
     protected Float subTotal;
-    @XmlAttribute(name = "formaDePago")
+    @XmlAttribute(name = "FormaDePago")
+    @Column(name = "forma_de_pago")
     protected String formaDePago;
-    @XmlAttribute(name = "serie")
+    @XmlAttribute(name = "Serie")
+    @Column(name = "serie")
     protected String serie;
-    @XmlAttribute(name = "version")
+    @XmlAttribute(name = "Version")
+    @Column(name = "version")
     protected Float version;
-    @XmlAttribute(name = "folio")
+    @XmlAttribute(name = "Folio")
+    @Column(name = "folio")
     protected String folio;
     @XmlAttribute(name = "NumCtaPago")
+    @Column(name = "num_cta_pago")
     protected String numCtaPago;
-    @XmlAttribute(name = "sello")
+    @XmlAttribute(name = "Sello")
+    @Column(name = "sello")
     protected String sello;
-    @XmlAttribute(name = "fecha")
+    @XmlAttribute(name = "Fecha")
     @XmlSchemaType(name = "dateTime")
+    @Transient
+    @Setter(value = AccessLevel.NONE)
     protected XMLGregorianCalendar fecha;
+    @Column(name = "fecha")
+    @Setter(value = AccessLevel.NONE)
+    protected Calendar fechaItem;
     @XmlAttribute(name = "LugarExpedicion")
+    @Column(name = "lugar_expedicion")
     protected String lugarExpedicion;
     @XmlAttribute(name = "Moneda")
+    @Column(name = "moneda")
     protected String moneda;
     @XmlAttribute(name = "TipoCambio")
+    @Column(name = "tipo_cambio")
     protected String tipoCambio;
-    @XmlAttribute(name = "total")
+    @XmlAttribute(name = "Total")
+    @Column(name = "total")
     protected Float total;
-    @XmlAttribute(name = "metodoDePago")
+    @XmlAttribute(name = "MetodoDePago")
+    @Column(name = "metodo_de_pago")
     protected String metodoDePago;
-    @XmlAttribute(name = "tipoDeComprobante")
+    @XmlAttribute(name = "TipoDeComprobante")
+    @Column(name = "tipo_de_comprobante")
     protected String tipoDeComprobante;
 
-    /**
-     * Obtiene el valor de la propiedad emisor.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Emisor }
-     *     
-     */
-    public Emisor getEmisor() {
-        return emisor;
+    public void setFecha(XMLGregorianCalendar target) throws DatatypeConfigurationException{
+    	this.fecha = target;
+    	this.fechaItem = new GregorianCalendar(target.getYear(), target.getMonth(), target.getDay()); 
     }
-
-    /**
-     * Define el valor de la propiedad emisor.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Emisor }
-     *     
-     */
-    public void setEmisor(Emisor value) {
-        this.emisor = value;
+    
+    public void setFechaItem(Calendar target) throws DatatypeConfigurationException{
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTimeInMillis(target.getTimeInMillis());
+        XMLGregorianCalendar xc = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
+        this.fecha = xc;
+        this.fechaItem = target;
     }
-
-    /**
-     * Obtiene el valor de la propiedad receptor.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Receptor }
-     *     
-     */
-    public Receptor getReceptor() {
-        return receptor;
+    
+    public void setConcepto(Conceptos concepto){
+    	this.concepto = concepto;
+    	this.conceptos = concepto.getConcepto();
     }
-
-    /**
-     * Define el valor de la propiedad receptor.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Receptor }
-     *     
-     */
-    public void setReceptor(Receptor value) {
-        this.receptor = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad conceptos.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Conceptos }
-     *     
-     */
-    public Conceptos getConceptos() {
-        return conceptos;
-    }
-
-    /**
-     * Define el valor de la propiedad conceptos.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Conceptos }
-     *     
-     */
-    public void setConceptos(Conceptos value) {
-        this.conceptos = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad impuestos.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Impuestos }
-     *     
-     */
-    public Impuestos getImpuestos() {
-        return impuestos;
-    }
-
-    /**
-     * Define el valor de la propiedad impuestos.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Impuestos }
-     *     
-     */
-    public void setImpuestos(Impuestos value) {
-        this.impuestos = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad complemento.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Complemento }
-     *     
-     */
-    public Complemento getComplemento() {
-        return complemento;
-    }
-
-    /**
-     * Define el valor de la propiedad complemento.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Complemento }
-     *     
-     */
-    public void setComplemento(Complemento value) {
-        this.complemento = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad certificado.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getCertificado() {
-        return certificado;
-    }
-
-    /**
-     * Define el valor de la propiedad certificado.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setCertificado(String value) {
-        this.certificado = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad noCertificado.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getNoCertificado() {
-        return noCertificado;
-    }
-
-    /**
-     * Define el valor de la propiedad noCertificado.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setNoCertificado(String value) {
-        this.noCertificado = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad condicionesDePago.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getCondicionesDePago() {
-        return condicionesDePago;
-    }
-
-    /**
-     * Define el valor de la propiedad condicionesDePago.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setCondicionesDePago(String value) {
-        this.condicionesDePago = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad descuento.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Float }
-     *     
-     */
-    public Float getDescuento() {
-        return descuento;
-    }
-
-    /**
-     * Define el valor de la propiedad descuento.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Float }
-     *     
-     */
-    public void setDescuento(Float value) {
-        this.descuento = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad subTotal.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Float }
-     *     
-     */
-    public Float getSubTotal() {
-        return subTotal;
-    }
-
-    /**
-     * Define el valor de la propiedad subTotal.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Float }
-     *     
-     */
-    public void setSubTotal(Float value) {
-        this.subTotal = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad formaDePago.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getFormaDePago() {
-        return formaDePago;
-    }
-
-    /**
-     * Define el valor de la propiedad formaDePago.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setFormaDePago(String value) {
-        this.formaDePago = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad serie.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSerie() {
-        return serie;
-    }
-
-    /**
-     * Define el valor de la propiedad serie.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSerie(String value) {
-        this.serie = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad version.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Float }
-     *     
-     */
-    public Float getVersion() {
-        return version;
-    }
-
-    /**
-     * Define el valor de la propiedad version.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Float }
-     *     
-     */
-    public void setVersion(Float value) {
-        this.version = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad folio.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getFolio() {
-        return folio;
-    }
-
-    /**
-     * Define el valor de la propiedad folio.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setFolio(String value) {
-        this.folio = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad numCtaPago.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getNumCtaPago() {
-        return numCtaPago;
-    }
-
-    /**
-     * Define el valor de la propiedad numCtaPago.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setNumCtaPago(String value) {
-        this.numCtaPago = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad sello.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSello() {
-        return sello;
-    }
-
-    /**
-     * Define el valor de la propiedad sello.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSello(String value) {
-        this.sello = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad fecha.
-     * 
-     * @return
-     *     possible object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public XMLGregorianCalendar getFecha() {
-        return fecha;
-    }
-
-    /**
-     * Define el valor de la propiedad fecha.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public void setFecha(XMLGregorianCalendar value) {
-        this.fecha = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad lugarExpedicion.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getLugarExpedicion() {
-        return lugarExpedicion;
-    }
-
-    /**
-     * Define el valor de la propiedad lugarExpedicion.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setLugarExpedicion(String value) {
-        this.lugarExpedicion = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad moneda.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getMoneda() {
-        return moneda;
-    }
-
-    /**
-     * Define el valor de la propiedad moneda.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setMoneda(String value) {
-        this.moneda = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad tipoCambio.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getTipoCambio() {
-        return tipoCambio;
-    }
-
-    /**
-     * Define el valor de la propiedad tipoCambio.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setTipoCambio(String value) {
-        this.tipoCambio = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad total.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Float }
-     *     
-     */
-    public Float getTotal() {
-        return total;
-    }
-
-    /**
-     * Define el valor de la propiedad total.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Float }
-     *     
-     */
-    public void setTotal(Float value) {
-        this.total = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad metodoDePago.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getMetodoDePago() {
-        return metodoDePago;
-    }
-
-    /**
-     * Define el valor de la propiedad metodoDePago.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setMetodoDePago(String value) {
-        this.metodoDePago = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad tipoDeComprobante.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getTipoDeComprobante() {
-        return tipoDeComprobante;
-    }
-
-    /**
-     * Define el valor de la propiedad tipoDeComprobante.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setTipoDeComprobante(String value) {
-        this.tipoDeComprobante = value;
+    
+    public void setConceptos(List<Concepto> conceptos){
+    	Conceptos concepto = Conceptos.builder().concepto(conceptos).build();
+    	this.conceptos = conceptos;
+    	this.concepto = concepto;
     }
 
 }

@@ -8,14 +8,25 @@
 
 package com.github.mangelt.jpa.invoice.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -46,165 +57,38 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @XmlType(name = "")
 @XmlRootElement(name = "TimbreFiscalDigital", namespace = "http://www.sat.gob.mx/TimbreFiscalDigital")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "timbre_fiscal_digital")
 public class TimbreFiscalDigital {
+	
+	@Id
+    @Column(name = "id", nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @XmlTransient
+    protected int id;
 
-    @XmlAttribute(name = "version", required = true)
+    @XmlAttribute(name = "Version", required = true)
     @XmlSchemaType(name = "anySimpleType")
+    @Column(name = "version", nullable = false)
     protected String version;
     @XmlAttribute(name = "UUID", required = true)
+    @Column(name = "uuid", nullable = false)
     protected String uuid;
     @XmlAttribute(name = "FechaTimbrado", required = true)
     @XmlSchemaType(name = "anySimpleType")
+    @Column(name = "fecha_timbrado", nullable = false)
     protected String fechaTimbrado;
-    @XmlAttribute(name = "selloCFD", required = true)
+    @XmlAttribute(name = "SelloCFD", required = true)
+    @Column(name = "sello_cfd", nullable = false)
     protected String selloCFD;
-    @XmlAttribute(name = "noCertificadoSAT", required = true)
+    @XmlAttribute(name = "NoCertificadoSAT", required = true)
+    @Column(name = "no_certificado_sat", nullable = false)
     protected String noCertificadoSAT;
-    @XmlAttribute(name = "selloSAT", required = true)
+    @XmlAttribute(name = "SelloSAT", required = true)
+    @Column(name = "sello_sat", nullable = false)
     protected String selloSAT;
-
-    /**
-     * Obtiene el valor de la propiedad version.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getVersion() {
-        return version;
-    }
-
-    /**
-     * Define el valor de la propiedad version.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setVersion(String value) {
-        this.version = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad uuid.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getUUID() {
-        return uuid;
-    }
-
-    /**
-     * Define el valor de la propiedad uuid.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setUUID(String value) {
-        this.uuid = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad fechaTimbrado.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getFechaTimbrado() {
-        return fechaTimbrado;
-    }
-
-    /**
-     * Define el valor de la propiedad fechaTimbrado.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setFechaTimbrado(String value) {
-        this.fechaTimbrado = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad selloCFD.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSelloCFD() {
-        return selloCFD;
-    }
-
-    /**
-     * Define el valor de la propiedad selloCFD.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSelloCFD(String value) {
-        this.selloCFD = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad noCertificadoSAT.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getNoCertificadoSAT() {
-        return noCertificadoSAT;
-    }
-
-    /**
-     * Define el valor de la propiedad noCertificadoSAT.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setNoCertificadoSAT(String value) {
-        this.noCertificadoSAT = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad selloSAT.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSelloSAT() {
-        return selloSAT;
-    }
-
-    /**
-     * Define el valor de la propiedad selloSAT.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSelloSAT(String value) {
-        this.selloSAT = value;
-    }
 
 }

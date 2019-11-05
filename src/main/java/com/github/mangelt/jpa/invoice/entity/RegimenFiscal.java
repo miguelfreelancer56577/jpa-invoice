@@ -5,17 +5,25 @@
 // Generado el: 2017.05.17 a las 11:13:39 AM CDT 
 //
 
-
 package com.github.mangelt.jpa.invoice.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import lombok.Data;
 
 
 /**
@@ -41,59 +49,21 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 })
 @XmlRootElement(name = "RegimenFiscal")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@Data
+@Table(name = "regimen_fiscal")
+@Entity
 public class RegimenFiscal {
 
+    @Id
+    @Column(name = "id", nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @XmlTransient
+    protected int id;
     @XmlValue
+    @Column(name = "value")
     protected String value;
     @XmlAttribute(name = "Regimen")
+    @Column(name = "regimen")
     protected String regimen;
-
-    /**
-     * Obtiene el valor de la propiedad value.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getValue() {
-        return value;
-    }
-
-    /**
-     * Define el valor de la propiedad value.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad regimen.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getRegimen() {
-        return regimen;
-    }
-
-    /**
-     * Define el valor de la propiedad regimen.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setRegimen(String value) {
-        this.regimen = value;
-    }
 
 }

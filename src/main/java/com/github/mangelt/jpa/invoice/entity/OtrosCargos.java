@@ -11,14 +11,29 @@ package com.github.mangelt.jpa.invoice.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -43,68 +58,27 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "cargo"
+    "Cargo"
 })
 @XmlRootElement(name = "OtrosCargos", namespace = "http://www.sat.gob.mx/aerolineas")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@Entity
+@Table(name = "otros_cargos")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class OtrosCargos {
 
+	@Id
+    @Column(name = "id", nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @XmlTransient
+    protected int id;
+	
     @XmlElement(name = "Cargo", namespace = "http://www.sat.gob.mx/aerolineas")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     protected List<Cargo> cargo;
     @XmlAttribute(name = "TotalCargos")
     protected Float totalCargos;
-
-    /**
-     * Gets the value of the cargo property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the cargo property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getCargo().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Cargo }
-     * 
-     * 
-     */
-    public List<Cargo> getCargo() {
-        if (cargo == null) {
-            cargo = new ArrayList<Cargo>();
-        }
-        return this.cargo;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad totalCargos.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Float }
-     *     
-     */
-    public Float getTotalCargos() {
-        return totalCargos;
-    }
-
-    /**
-     * Define el valor de la propiedad totalCargos.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Float }
-     *     
-     */
-    public void setTotalCargos(Float value) {
-        this.totalCargos = value;
-    }
 
 }

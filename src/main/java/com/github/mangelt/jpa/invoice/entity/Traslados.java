@@ -19,6 +19,11 @@ import javax.xml.bind.annotation.XmlType;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 
 /**
  * <p>Clase Java para anonymous complex type.
@@ -45,6 +50,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 })
 @XmlRootElement(name = "Traslados")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Traslados {
 
     @XmlElement(name = "Traslado")

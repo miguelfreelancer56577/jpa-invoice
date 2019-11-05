@@ -8,14 +8,27 @@
 
 package com.github.mangelt.jpa.invoice.entity;
 
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -42,85 +55,25 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 })
 @XmlRootElement(name = "Cargo", namespace = "http://www.sat.gob.mx/aerolineas")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@Table(name = "cargo")
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Cargo {
 
+	@Id
+    @Column(name = "id", nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @XmlTransient
+    protected int id;
+	
     @XmlValue
     protected String value;
     @XmlAttribute(name = "Importe")
     protected Float importe;
     @XmlAttribute(name = "CodigoCargo")
+    @Column(name = "codigo_cargo")
     protected String codigoCargo;
-
-    /**
-     * Obtiene el valor de la propiedad value.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getValue() {
-        return value;
-    }
-
-    /**
-     * Define el valor de la propiedad value.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad importe.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Float }
-     *     
-     */
-    public Float getImporte() {
-        return importe;
-    }
-
-    /**
-     * Define el valor de la propiedad importe.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Float }
-     *     
-     */
-    public void setImporte(Float value) {
-        this.importe = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad codigoCargo.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getCodigoCargo() {
-        return codigoCargo;
-    }
-
-    /**
-     * Define el valor de la propiedad codigoCargo.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setCodigoCargo(String value) {
-        this.codigoCargo = value;
-    }
 
 }

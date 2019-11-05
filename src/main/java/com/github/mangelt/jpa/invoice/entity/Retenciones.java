@@ -19,6 +19,11 @@ import javax.xml.bind.annotation.XmlType;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 
 /**
  * <p>Clase Java para anonymous complex type.
@@ -41,42 +46,17 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "retencion"
+    "Retencion"
 })
 @XmlRootElement(name = "Retenciones")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Retenciones {
 
     @XmlElement(name = "Retencion")
     protected List<Retencion> retencion;
-
-    /**
-     * Gets the value of the retencion property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the retencion property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getRetencion().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Retencion }
-     * 
-     * 
-     */
-    public List<Retencion> getRetencion() {
-        if (retencion == null) {
-            retencion = new ArrayList<Retencion>();
-        }
-        return this.retencion;
-    }
 
 }

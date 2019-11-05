@@ -8,14 +8,24 @@
 
 package com.github.mangelt.jpa.invoice.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import lombok.Builder;
+import lombok.Data;
 
 
 /**
@@ -43,111 +53,24 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 })
 @XmlRootElement(name = "Traslado")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@Data
+@Entity
+@Table(name = "traslado")
 public class Traslado {
 
+	@Id
+    @Column(name = "id", nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	@XmlTransient
+    protected int id;
+	
     @XmlValue
     protected String value;
-    @XmlAttribute(name = "importe")
+    @XmlAttribute(name = "Importe")
     protected Float importe;
-    @XmlAttribute(name = "tasa")
+    @XmlAttribute(name = "Tasa")
     protected String tasa;
-    @XmlAttribute(name = "impuesto")
+    @XmlAttribute(name = "Impuesto")
     protected String impuesto;
-
-    /**
-     * Obtiene el valor de la propiedad value.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getValue() {
-        return value;
-    }
-
-    /**
-     * Define el valor de la propiedad value.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad importe.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Float }
-     *     
-     */
-    public Float getImporte() {
-        return importe;
-    }
-
-    /**
-     * Define el valor de la propiedad importe.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Float }
-     *     
-     */
-    public void setImporte(Float value) {
-        this.importe = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad tasa.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getTasa() {
-        return tasa;
-    }
-
-    /**
-     * Define el valor de la propiedad tasa.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setTasa(String value) {
-        this.tasa = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad impuesto.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getImpuesto() {
-        return impuesto;
-    }
-
-    /**
-     * Define el valor de la propiedad impuesto.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setImpuesto(String value) {
-        this.impuesto = value;
-    }
 
 }

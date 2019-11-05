@@ -8,14 +8,26 @@
 
 package com.github.mangelt.jpa.invoice.entity;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import lombok.Data;
 
 
 /**
@@ -43,143 +55,39 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "domicilioFiscal",
-    "expedidoEn",
-    "regimenFiscal"
+    "DomicilioFiscal",
+    "ExpedidoEn",
+    "RegimenFiscal"
 })
 @XmlRootElement(name = "Emisor")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@Entity
+@Table(name = "emisor")
+@Data
 public class Emisor {
 
+    @Id
+    @Column(name = "id", nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @XmlTransient
+    protected int id;
     @XmlElement(name = "DomicilioFiscal", required = true)
+    @OneToOne(orphanRemoval = true, optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(columnDefinition = "id")
     protected DomicilioFiscal domicilioFiscal;
     @XmlElement(name = "ExpedidoEn", required = true)
+    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
+    @JoinColumn(columnDefinition = "id")
     protected ExpedidoEn expedidoEn;
     @XmlElement(name = "RegimenFiscal", required = true)
+    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
+    @JoinColumn(columnDefinition = "id")
     protected RegimenFiscal regimenFiscal;
-    @XmlAttribute(name = "rfc")
+    @XmlAttribute(name = "Rfc")
+    @Column(name = "rfc")
     protected String rfc;
-    @XmlAttribute(name = "nombre")
+    @XmlAttribute(name = "Nombre")
+    @Column(name = "nombre")
     protected String nombre;
-
-    /**
-     * Obtiene el valor de la propiedad domicilioFiscal.
-     * 
-     * @return
-     *     possible object is
-     *     {@link DomicilioFiscal }
-     *     
-     */
-    public DomicilioFiscal getDomicilioFiscal() {
-        return domicilioFiscal;
-    }
-
-    /**
-     * Define el valor de la propiedad domicilioFiscal.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link DomicilioFiscal }
-     *     
-     */
-    public void setDomicilioFiscal(DomicilioFiscal value) {
-        this.domicilioFiscal = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad expedidoEn.
-     * 
-     * @return
-     *     possible object is
-     *     {@link ExpedidoEn }
-     *     
-     */
-    public ExpedidoEn getExpedidoEn() {
-        return expedidoEn;
-    }
-
-    /**
-     * Define el valor de la propiedad expedidoEn.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link ExpedidoEn }
-     *     
-     */
-    public void setExpedidoEn(ExpedidoEn value) {
-        this.expedidoEn = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad regimenFiscal.
-     * 
-     * @return
-     *     possible object is
-     *     {@link RegimenFiscal }
-     *     
-     */
-    public RegimenFiscal getRegimenFiscal() {
-        return regimenFiscal;
-    }
-
-    /**
-     * Define el valor de la propiedad regimenFiscal.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link RegimenFiscal }
-     *     
-     */
-    public void setRegimenFiscal(RegimenFiscal value) {
-        this.regimenFiscal = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad rfc.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getRfc() {
-        return rfc;
-    }
-
-    /**
-     * Define el valor de la propiedad rfc.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setRfc(String value) {
-        this.rfc = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad nombre.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getNombre() {
-        return nombre;
-    }
-
-    /**
-     * Define el valor de la propiedad nombre.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setNombre(String value) {
-        this.nombre = value;
-    }
 
 }

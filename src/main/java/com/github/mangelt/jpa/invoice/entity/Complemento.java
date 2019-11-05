@@ -8,13 +8,28 @@
 
 package com.github.mangelt.jpa.invoice.entity;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -46,85 +61,30 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 })
 @XmlRootElement(name = "Complemento")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "complemento")
 public class Complemento {
+	
+	@Id
+    @Column(name = "id", nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @XmlTransient
+    protected int id;
 
-    @XmlElement(name = "Aerolineas", namespace = "http://www.sat.gob.mx/aerolineas", required = true)
+    @XmlElement(name = "Aerolineas", namespace = "http://www.sat.gob.mx/aerolineas", required = false)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(columnDefinition = "id")
     protected Aerolineas aerolineas;
-    @XmlElement(name = "ImpuestosLocales", namespace = "http://www.sat.gob.mx/implocal", required = true)
+    @XmlElement(name = "ImpuestosLocales", namespace = "http://www.sat.gob.mx/implocal", required = false)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(columnDefinition = "id")
     protected ImpuestosLocales impuestosLocales;
     @XmlElement(name = "TimbreFiscalDigital", namespace = "http://www.sat.gob.mx/TimbreFiscalDigital", required = true)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, optional = false)
+    @JoinColumn(columnDefinition = "id", nullable = false)
     protected TimbreFiscalDigital timbreFiscalDigital;
-
-    /**
-     * Obtiene el valor de la propiedad aerolineas.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Aerolineas }
-     *     
-     */
-    public Aerolineas getAerolineas() {
-        return aerolineas;
-    }
-
-    /**
-     * Define el valor de la propiedad aerolineas.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Aerolineas }
-     *     
-     */
-    public void setAerolineas(Aerolineas value) {
-        this.aerolineas = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad impuestosLocales.
-     * 
-     * @return
-     *     possible object is
-     *     {@link ImpuestosLocales }
-     *     
-     */
-    public ImpuestosLocales getImpuestosLocales() {
-        return impuestosLocales;
-    }
-
-    /**
-     * Define el valor de la propiedad impuestosLocales.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link ImpuestosLocales }
-     *     
-     */
-    public void setImpuestosLocales(ImpuestosLocales value) {
-        this.impuestosLocales = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad timbreFiscalDigital.
-     * 
-     * @return
-     *     possible object is
-     *     {@link TimbreFiscalDigital }
-     *     
-     */
-    public TimbreFiscalDigital getTimbreFiscalDigital() {
-        return timbreFiscalDigital;
-    }
-
-    /**
-     * Define el valor de la propiedad timbreFiscalDigital.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link TimbreFiscalDigital }
-     *     
-     */
-    public void setTimbreFiscalDigital(TimbreFiscalDigital value) {
-        this.timbreFiscalDigital = value;
-    }
 
 }

@@ -8,14 +8,29 @@
 
 package com.github.mangelt.jpa.invoice.entity;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -41,89 +56,30 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "otrosCargos"
+    "OtrosCargos"
 })
 @XmlRootElement(name = "Aerolineas", namespace = "http://www.sat.gob.mx/aerolineas")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@Entity
+@Table(name = "aerolineas")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Aerolineas {
 
+	@Id
+    @Column(name = "id", nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @XmlTransient
+    protected int id;
+	
     @XmlElement(name = "OtrosCargos", namespace = "http://www.sat.gob.mx/aerolineas", required = true)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, optional = false)
+    @JoinColumn(columnDefinition = "id")
     protected OtrosCargos otrosCargos;
     @XmlAttribute(name = "Version")
     protected Float version;
     @XmlAttribute(name = "TUA")
     protected Float tua;
-
-    /**
-     * Obtiene el valor de la propiedad otrosCargos.
-     * 
-     * @return
-     *     possible object is
-     *     {@link OtrosCargos }
-     *     
-     */
-    public OtrosCargos getOtrosCargos() {
-        return otrosCargos;
-    }
-
-    /**
-     * Define el valor de la propiedad otrosCargos.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link OtrosCargos }
-     *     
-     */
-    public void setOtrosCargos(OtrosCargos value) {
-        this.otrosCargos = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad version.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Float }
-     *     
-     */
-    public Float getVersion() {
-        return version;
-    }
-
-    /**
-     * Define el valor de la propiedad version.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Float }
-     *     
-     */
-    public void setVersion(Float value) {
-        this.version = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad tua.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Float }
-     *     
-     */
-    public Float getTUA() {
-        return tua;
-    }
-
-    /**
-     * Define el valor de la propiedad tua.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Float }
-     *     
-     */
-    public void setTUA(Float value) {
-        this.tua = value;
-    }
 
 }

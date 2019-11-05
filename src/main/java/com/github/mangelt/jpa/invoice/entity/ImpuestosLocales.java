@@ -10,8 +10,22 @@ package com.github.mangelt.jpa.invoice.entity;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -19,9 +33,16 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 /**
@@ -75,127 +96,89 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "retencionesLocalesOrTrasladosLocales"
+    "RetencionesLocalesOrTrasladosLocales"
 })
 @XmlRootElement(name = "ImpuestosLocales", namespace = "http://www.sat.gob.mx/implocal")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@Entity
+@Table(name = "impuestos_locales")
 public class ImpuestosLocales {
 
+	@Id
+    @Column(name = "id", nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @XmlTransient
+    protected int id;
+	
     @XmlElements({
         @XmlElement(name = "RetencionesLocales", namespace = "http://www.sat.gob.mx/implocal", type = ImpuestosLocales.RetencionesLocales.class),
         @XmlElement(name = "TrasladosLocales", namespace = "http://www.sat.gob.mx/implocal", type = ImpuestosLocales.TrasladosLocales.class)
     })
+    @Transient
+    @Setter(value = AccessLevel.NONE)
     protected List<Object> retencionesLocalesOrTrasladosLocales;
-    @XmlAttribute(name = "version", required = true)
+    
+//    separated relationship to the tables retenciones_locales and traslados_locales
+    
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(columnDefinition = "id")
+    @Setter(value = AccessLevel.NONE)
+    protected List<RetencionesLocales> retencionesLocales;
+    
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(columnDefinition = "id")
+    @Setter(value = AccessLevel.NONE)
+    protected List<TrasladosLocales> trasladosLocales;
+    
+    @XmlAttribute(name = "Version", required = true)
+    @Column(name = "version")
     @XmlSchemaType(name = "anySimpleType")
     protected String version;
     @XmlAttribute(name = "TotaldeRetenciones", required = true)
+    @Column(name = "totalde_retenciones")
     protected BigDecimal totaldeRetenciones;
     @XmlAttribute(name = "TotaldeTraslados", required = true)
+    @Column(name = "total_de_traslados")
     protected BigDecimal totaldeTraslados;
-
-    /**
-     * Gets the value of the retencionesLocalesOrTrasladosLocales property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the retencionesLocalesOrTrasladosLocales property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getRetencionesLocalesOrTrasladosLocales().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ImpuestosLocales.RetencionesLocales }
-     * {@link ImpuestosLocales.TrasladosLocales }
-     * 
-     * 
-     */
-    public List<Object> getRetencionesLocalesOrTrasladosLocales() {
-        if (retencionesLocalesOrTrasladosLocales == null) {
-            retencionesLocalesOrTrasladosLocales = new ArrayList<Object>();
-        }
-        return this.retencionesLocalesOrTrasladosLocales;
+    
+    public void setRetencionesLocalesOrTrasladosLocales(List<Object> retencionesLocalesOrTrasladosLocales) {
+    	this.retencionesLocalesOrTrasladosLocales = retencionesLocalesOrTrasladosLocales;
+    	List<TrasladosLocales> trasladosLocales = new ArrayList();
+		List<RetencionesLocales> retencionesLocales = new ArrayList();
+    	if(!Objects.isNull(retencionesLocalesOrTrasladosLocales)) {
+    		retencionesLocalesOrTrasladosLocales.parallelStream().forEach(target->{
+    			if (target instanceof TrasladosLocales) {
+    				trasladosLocales.add((TrasladosLocales) target);
+				}else {
+					retencionesLocales.add((RetencionesLocales) target);
+				}
+    		});
+    		if(!trasladosLocales.isEmpty()) {
+    			this.trasladosLocales = trasladosLocales;
+    		}
+    		if(!retencionesLocales.isEmpty()) {
+    			this.retencionesLocales = retencionesLocales;
+    		}
+    	}
     }
-
-    /**
-     * Obtiene el valor de la propiedad version.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getVersion() {
-        return version;
+    
+    public void setRetencionesLocales(List<RetencionesLocales> retencionesLocales) {
+    	this.retencionesLocales = retencionesLocales;
+    	if(Objects.isNull(this.retencionesLocalesOrTrasladosLocales))
+    		this.retencionesLocalesOrTrasladosLocales = new ArrayList();
+    	retencionesLocales.parallelStream().forEach(target->{
+    		this.retencionesLocalesOrTrasladosLocales.add(target);
+    	});
     }
-
-    /**
-     * Define el valor de la propiedad version.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setVersion(String value) {
-        this.version = value;
+    
+    public void setTrasladosLocales(List<TrasladosLocales> trasladosLocales) {
+    	this.trasladosLocales = trasladosLocales;
+    	if(Objects.isNull(this.retencionesLocalesOrTrasladosLocales))
+    		this.retencionesLocalesOrTrasladosLocales = new ArrayList();
+    	trasladosLocales.parallelStream().forEach(target->{
+    		this.retencionesLocalesOrTrasladosLocales.add(target);
+    	});
     }
-
-    /**
-     * Obtiene el valor de la propiedad totaldeRetenciones.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigDecimal }
-     *     
-     */
-    public BigDecimal getTotaldeRetenciones() {
-        return totaldeRetenciones;
-    }
-
-    /**
-     * Define el valor de la propiedad totaldeRetenciones.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigDecimal }
-     *     
-     */
-    public void setTotaldeRetenciones(BigDecimal value) {
-        this.totaldeRetenciones = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad totaldeTraslados.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigDecimal }
-     *     
-     */
-    public BigDecimal getTotaldeTraslados() {
-        return totaldeTraslados;
-    }
-
-    /**
-     * Define el valor de la propiedad totaldeTraslados.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigDecimal }
-     *     
-     */
-    public void setTotaldeTraslados(BigDecimal value) {
-        this.totaldeTraslados = value;
-    }
-
 
     /**
      * <p>Clase Java para anonymous complex type.
@@ -220,86 +203,28 @@ public class ImpuestosLocales {
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "")
+    @Entity(name = "RetencionesLocales")
+    @Table(name = "retenciones_locales")
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class RetencionesLocales {
+    	
+    	@Id
+        @Column(name = "id", nullable = false, unique = true)
+        @GeneratedValue(strategy = GenerationType.AUTO)
+        @XmlTransient
+        protected int id;
 
         @XmlAttribute(name = "ImpLocRetenido", required = true)
+        @Column(name = "imp_loc_retenido", nullable = false)
         protected String impLocRetenido;
-        @XmlAttribute(name = "TasadeRetencion", required = true)
+        @XmlAttribute(name = "tasa_de_retencion", required = true)
+        @Column(name = "tasade_retencion", nullable = false)
         protected BigDecimal tasadeRetencion;
         @XmlAttribute(name = "Importe", required = true)
+        @Column(name = "importe", nullable = false)
         protected BigDecimal importe;
-
-        /**
-         * Obtiene el valor de la propiedad impLocRetenido.
-         * 
-         * @return
-         *     possible object is
-         *     {@link String }
-         *     
-         */
-        public String getImpLocRetenido() {
-            return impLocRetenido;
-        }
-
-        /**
-         * Define el valor de la propiedad impLocRetenido.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *     
-         */
-        public void setImpLocRetenido(String value) {
-            this.impLocRetenido = value;
-        }
-
-        /**
-         * Obtiene el valor de la propiedad tasadeRetencion.
-         * 
-         * @return
-         *     possible object is
-         *     {@link BigDecimal }
-         *     
-         */
-        public BigDecimal getTasadeRetencion() {
-            return tasadeRetencion;
-        }
-
-        /**
-         * Define el valor de la propiedad tasadeRetencion.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link BigDecimal }
-         *     
-         */
-        public void setTasadeRetencion(BigDecimal value) {
-            this.tasadeRetencion = value;
-        }
-
-        /**
-         * Obtiene el valor de la propiedad importe.
-         * 
-         * @return
-         *     possible object is
-         *     {@link BigDecimal }
-         *     
-         */
-        public BigDecimal getImporte() {
-            return importe;
-        }
-
-        /**
-         * Define el valor de la propiedad importe.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link BigDecimal }
-         *     
-         */
-        public void setImporte(BigDecimal value) {
-            this.importe = value;
-        }
 
     }
 
@@ -327,86 +252,28 @@ public class ImpuestosLocales {
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "")
+    @Entity
+    @Table(name = "traslados_locales")
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class TrasladosLocales {
 
+    	@Id
+        @Column(name = "id", nullable = false, unique = true)
+        @GeneratedValue(strategy = GenerationType.AUTO)
+        @XmlTransient
+        protected int id;
+    	
         @XmlAttribute(name = "ImpLocTrasladado", required = true)
+        @Column(name = "imp_loc_trasladado", nullable = false)
         protected String impLocTrasladado;
         @XmlAttribute(name = "TasadeTraslado", required = true)
+        @Column(name = "tasa_de_traslado", nullable = false)
         protected BigDecimal tasadeTraslado;
         @XmlAttribute(name = "Importe", required = true)
+        @Column(name = "importe", nullable = false)
         protected BigDecimal importe;
-
-        /**
-         * Obtiene el valor de la propiedad impLocTrasladado.
-         * 
-         * @return
-         *     possible object is
-         *     {@link String }
-         *     
-         */
-        public String getImpLocTrasladado() {
-            return impLocTrasladado;
-        }
-
-        /**
-         * Define el valor de la propiedad impLocTrasladado.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *     
-         */
-        public void setImpLocTrasladado(String value) {
-            this.impLocTrasladado = value;
-        }
-
-        /**
-         * Obtiene el valor de la propiedad tasadeTraslado.
-         * 
-         * @return
-         *     possible object is
-         *     {@link BigDecimal }
-         *     
-         */
-        public BigDecimal getTasadeTraslado() {
-            return tasadeTraslado;
-        }
-
-        /**
-         * Define el valor de la propiedad tasadeTraslado.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link BigDecimal }
-         *     
-         */
-        public void setTasadeTraslado(BigDecimal value) {
-            this.tasadeTraslado = value;
-        }
-
-        /**
-         * Obtiene el valor de la propiedad importe.
-         * 
-         * @return
-         *     possible object is
-         *     {@link BigDecimal }
-         *     
-         */
-        public BigDecimal getImporte() {
-            return importe;
-        }
-
-        /**
-         * Define el valor de la propiedad importe.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link BigDecimal }
-         *     
-         */
-        public void setImporte(BigDecimal value) {
-            this.importe = value;
-        }
 
     }
 
