@@ -5,25 +5,32 @@
 // Generado el: 2017.05.17 a las 11:13:39 AM CDT 
 //
 
-package com.github.mangelt.jpa.invoice.entity;
 
+package com.github.mangelt.data.entity;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlValue;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -33,11 +40,15 @@ import lombok.Data;
  * 
  * <pre>
  * &lt;complexType&gt;
- *   &lt;simpleContent&gt;
- *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema&gt;string"&gt;
- *       &lt;attribute name="Regimen" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *     &lt;/extension&gt;
- *   &lt;/simpleContent&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element ref="{http://www.sat.gob.mx/aerolineas}OtrosCargos"/&gt;
+ *       &lt;/sequence&gt;
+ *       &lt;attribute name="Version" type="{http://www.w3.org/2001/XMLSchema}float" /&gt;
+ *       &lt;attribute name="TUA" type="{http://www.w3.org/2001/XMLSchema}float" /&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
  * 
@@ -45,25 +56,30 @@ import lombok.Data;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "value"
+    "OtrosCargos"
 })
-@XmlRootElement(name = "RegimenFiscal")
+@XmlRootElement(name = "Aerolineas", namespace = "http://www.sat.gob.mx/aerolineas")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-@Data
-@Table(name = "regimen_fiscal")
 @Entity
-public class RegimenFiscal {
+@Table(name = "aerolineas")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Aerolineas {
 
-    @Id
+	@Id
     @Column(name = "id", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.AUTO)
     @XmlTransient
     protected int id;
-    @XmlValue
-    @Column(name = "value")
-    protected String value;
-    @XmlAttribute(name = "Regimen")
-    @Column(name = "regimen")
-    protected String regimen;
+	
+    @XmlElement(name = "OtrosCargos", namespace = "http://www.sat.gob.mx/aerolineas", required = true)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, optional = false)
+    @JoinColumn(columnDefinition = "id")
+    protected OtrosCargos otrosCargos;
+    @XmlAttribute(name = "Version")
+    protected Float version;
+    @XmlAttribute(name = "TUA")
+    protected Float tua;
 
 }

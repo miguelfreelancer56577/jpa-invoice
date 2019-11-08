@@ -6,7 +6,7 @@
 //
 
 
-package com.github.mangelt.jpa.invoice.entity;
+package com.github.mangelt.data.entity;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

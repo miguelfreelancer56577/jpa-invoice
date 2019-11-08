@@ -5,7 +5,7 @@
 // Generado el: 2017.09.06 a las 02:04:29 PM CDT 
 //
 
-package com.github.mangelt.jpa.invoice.entity;
+package com.github.mangelt.data.entity;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;

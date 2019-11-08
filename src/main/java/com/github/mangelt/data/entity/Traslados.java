@@ -6,7 +6,7 @@
 //
 
 
-package com.github.mangelt.jpa.invoice.entity;
+package com.github.mangelt.data.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,7 @@ import lombok.NoArgsConstructor;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element ref="{http://www.sat.gob.mx/cfd/3}Retencion" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;element ref="{http://www.sat.gob.mx/cfd/3}Traslado" maxOccurs="unbounded" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -46,17 +46,46 @@ import lombok.NoArgsConstructor;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "Retencion"
+    "traslado"
 })
-@XmlRootElement(name = "Retenciones")
+@XmlRootElement(name = "Traslados")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Retenciones {
+public class Traslados {
 
-    @XmlElement(name = "Retencion")
-    protected List<Retencion> retencion;
+    @XmlElement(name = "Traslado")
+    protected List<Traslado> traslado;
+
+    /**
+     * Gets the value of the traslado property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the traslado property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getTraslado().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link Traslado }
+     * 
+     * 
+     */
+    public List<Traslado> getTraslado() {
+        if (traslado == null) {
+            traslado = new ArrayList<Traslado>();
+        }
+        return this.traslado;
+    }
 
 }

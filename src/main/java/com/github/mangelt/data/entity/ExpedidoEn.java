@@ -5,7 +5,7 @@
 // Generado el: 2017.05.29 a las 09:10:41 AM CDT 
 //
 
-package com.github.mangelt.jpa.invoice.entity;
+package com.github.mangelt.data.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

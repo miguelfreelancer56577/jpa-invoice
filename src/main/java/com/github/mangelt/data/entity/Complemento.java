@@ -6,11 +6,12 @@
 //
 
 
-package com.github.mangelt.jpa.invoice.entity;
+package com.github.mangelt.data.entity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +20,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -27,7 +27,9 @@ import javax.xml.bind.annotation.XmlType;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -40,12 +42,10 @@ import lombok.Data;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element ref="{http://www.sat.gob.mx/cfd/3}DomicilioFiscal"/&gt;
- *         &lt;element ref="{http://www.sat.gob.mx/cfd/3}ExpedidoEn"/&gt;
- *         &lt;element ref="{http://www.sat.gob.mx/cfd/3}RegimenFiscal"/&gt;
+ *         &lt;element ref="{http://www.sat.gob.mx/aerolineas}Aerolineas"/&gt;
+ *         &lt;element ref="{http://www.sat.gob.mx/implocal}ImpuestosLocales"/&gt;
+ *         &lt;element ref="{http://www.sat.gob.mx/TimbreFiscalDigital}TimbreFiscalDigital"/&gt;
  *       &lt;/sequence&gt;
- *       &lt;attribute name="rfc" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *       &lt;attribute name="nombre" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
@@ -55,39 +55,36 @@ import lombok.Data;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "DomicilioFiscal",
-    "ExpedidoEn",
-    "RegimenFiscal"
+    "aerolineas",
+    "impuestosLocales",
+    "timbreFiscalDigital"
 })
-@XmlRootElement(name = "Emisor")
+@XmlRootElement(name = "Complemento")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-@Entity
-@Table(name = "emisor")
 @Data
-public class Emisor {
-
-    @Id
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "complemento")
+public class Complemento {
+	
+	@Id
     @Column(name = "id", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.AUTO)
     @XmlTransient
     protected int id;
-    @XmlElement(name = "DomicilioFiscal", required = true)
-    @OneToOne(orphanRemoval = true, optional = false, cascade = CascadeType.ALL)
+
+    @XmlElement(name = "Aerolineas", namespace = "http://www.sat.gob.mx/aerolineas", required = false)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(columnDefinition = "id")
-    protected DomicilioFiscal domicilioFiscal;
-    @XmlElement(name = "ExpedidoEn", required = true)
-    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
+    protected Aerolineas aerolineas;
+    @XmlElement(name = "ImpuestosLocales", namespace = "http://www.sat.gob.mx/implocal", required = false)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(columnDefinition = "id")
-    protected ExpedidoEn expedidoEn;
-    @XmlElement(name = "RegimenFiscal", required = true)
-    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
-    @JoinColumn(columnDefinition = "id")
-    protected RegimenFiscal regimenFiscal;
-    @XmlAttribute(name = "Rfc")
-    @Column(name = "rfc")
-    protected String rfc;
-    @XmlAttribute(name = "Nombre")
-    @Column(name = "nombre")
-    protected String nombre;
+    protected ImpuestosLocales impuestosLocales;
+    @XmlElement(name = "TimbreFiscalDigital", namespace = "http://www.sat.gob.mx/TimbreFiscalDigital", required = true)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, optional = false)
+    @JoinColumn(columnDefinition = "id", nullable = false)
+    protected TimbreFiscalDigital timbreFiscalDigital;
 
 }

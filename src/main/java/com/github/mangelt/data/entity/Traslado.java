@@ -6,9 +6,7 @@
 //
 
 
-package com.github.mangelt.jpa.invoice.entity;
-
-import java.util.List;
+package com.github.mangelt.data.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,9 +24,8 @@ import javax.xml.bind.annotation.XmlValue;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 
 /**
@@ -40,8 +37,9 @@ import lombok.NoArgsConstructor;
  * &lt;complexType&gt;
  *   &lt;simpleContent&gt;
  *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema&gt;string"&gt;
- *       &lt;attribute name="Importe" type="{http://www.w3.org/2001/XMLSchema}float" /&gt;
- *       &lt;attribute name="CodigoCargo" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *       &lt;attribute name="importe" type="{http://www.w3.org/2001/XMLSchema}float" /&gt;
+ *       &lt;attribute name="tasa" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *       &lt;attribute name="impuesto" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
  *     &lt;/extension&gt;
  *   &lt;/simpleContent&gt;
  * &lt;/complexType&gt;
@@ -53,27 +51,26 @@ import lombok.NoArgsConstructor;
 @XmlType(name = "", propOrder = {
     "value"
 })
-@XmlRootElement(name = "Cargo", namespace = "http://www.sat.gob.mx/aerolineas")
+@XmlRootElement(name = "Traslado")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-@Table(name = "cargo")
-@Entity
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Cargo {
+@Entity
+@Table(name = "traslado")
+public class Traslado {
 
 	@Id
     @Column(name = "id", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @XmlTransient
+	@XmlTransient
     protected int id;
 	
     @XmlValue
     protected String value;
     @XmlAttribute(name = "Importe")
     protected Float importe;
-    @XmlAttribute(name = "CodigoCargo")
-    @Column(name = "codigo_cargo")
-    protected String codigoCargo;
+    @XmlAttribute(name = "Tasa")
+    protected String tasa;
+    @XmlAttribute(name = "Impuesto")
+    protected String impuesto;
 
 }

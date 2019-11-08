@@ -5,8 +5,7 @@
 // Generado el: 2017.05.17 a las 11:13:39 AM CDT 
 //
 
-
-package com.github.mangelt.jpa.invoice.entity;
+package com.github.mangelt.data.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +23,6 @@ import javax.xml.bind.annotation.XmlValue;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import lombok.Builder;
 import lombok.Data;
 
 
@@ -37,9 +35,7 @@ import lombok.Data;
  * &lt;complexType&gt;
  *   &lt;simpleContent&gt;
  *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema&gt;string"&gt;
- *       &lt;attribute name="importe" type="{http://www.w3.org/2001/XMLSchema}float" /&gt;
- *       &lt;attribute name="tasa" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *       &lt;attribute name="impuesto" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *       &lt;attribute name="Regimen" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
  *     &lt;/extension&gt;
  *   &lt;/simpleContent&gt;
  * &lt;/complexType&gt;
@@ -51,26 +47,23 @@ import lombok.Data;
 @XmlType(name = "", propOrder = {
     "value"
 })
-@XmlRootElement(name = "Traslado")
+@XmlRootElement(name = "RegimenFiscal")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Data
+@Table(name = "regimen_fiscal")
 @Entity
-@Table(name = "traslado")
-public class Traslado {
+public class RegimenFiscal {
 
-	@Id
+    @Id
     @Column(name = "id", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.AUTO)
-	@XmlTransient
+    @XmlTransient
     protected int id;
-	
     @XmlValue
+    @Column(name = "value")
     protected String value;
-    @XmlAttribute(name = "Importe")
-    protected Float importe;
-    @XmlAttribute(name = "Tasa")
-    protected String tasa;
-    @XmlAttribute(name = "Impuesto")
-    protected String impuesto;
+    @XmlAttribute(name = "Regimen")
+    @Column(name = "regimen")
+    protected String regimen;
 
 }

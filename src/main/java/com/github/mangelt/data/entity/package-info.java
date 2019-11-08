@@ -6,4 +6,4 @@
 //
 
 @javax.xml.bind.annotation.XmlSchema(namespace = "http://www.sat.gob.mx/cfd/3", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-package com.github.mangelt.jpa.invoice.entity;
+package com.github.mangelt.data.entity;

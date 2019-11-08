@@ -6,7 +6,7 @@
 //
 
 
-package com.github.mangelt.jpa.invoice.entity;
+package com.github.mangelt.data.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 
 /**
@@ -36,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element ref="{http://www.sat.gob.mx/cfd/3}Concepto" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;element ref="{http://www.sat.gob.mx/cfd/3}Retencion" maxOccurs="unbounded" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -47,17 +46,17 @@ import lombok.extern.slf4j.Slf4j;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "concepto"
+    "Retencion"
 })
-@XmlRootElement(name = "Conceptos")
+@XmlRootElement(name = "Retenciones")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Conceptos {
+public class Retenciones {
 
-    @XmlElement(name = "Concepto")
-    protected List<Concepto> concepto;
+    @XmlElement(name = "Retencion")
+    protected List<Retencion> retencion;
 
 }

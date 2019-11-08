@@ -5,7 +5,7 @@
 // Generado el: 2017.05.29 a las 09:10:41 AM CDT 
 //
 
-package com.github.mangelt.jpa.invoice.entity;
+package com.github.mangelt.data.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +17,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 
@@ -39,9 +38,9 @@ import lombok.Data;
  *       &lt;attribute name="pais" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
  *       &lt;attribute name="estado" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
  *       &lt;attribute name="municipio" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *       &lt;attribute name="localidad" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
  *       &lt;attribute name="colonia" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
  *       &lt;attribute name="calle" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *       &lt;attribute name="localidad" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
  *       &lt;attribute name="noInterior" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
  *       &lt;attribute name="noExterior" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
  *     &lt;/extension&gt;
@@ -55,17 +54,16 @@ import lombok.Data;
 @XmlType(name = "", propOrder = {
     "value"
 })
-@XmlRootElement(name = "DomicilioFiscal")
+@XmlRootElement(name = "Domicilio")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-@Entity
-@Table(name = "domicilio_fiscal")
+@Table
+@Entity(name = "domicilio")
 @Data
-public class DomicilioFiscal {
+public class Domicilio {
 
-    @Id
     @Column(name = "id", nullable = false, unique = true)
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @XmlTransient
     protected int id;
     @XmlValue
     @Column(name = "value")
@@ -82,15 +80,15 @@ public class DomicilioFiscal {
     @XmlAttribute(name = "Municipio")
     @Column(name = "municipio")
     protected String municipio;
+    @XmlAttribute(name = "Localidad")
+    @Column(name = "localidad")
+    protected String localidad;
     @XmlAttribute(name = "Colonia")
     @Column(name = "colonia")
     protected String colonia;
     @XmlAttribute(name = "Calle")
     @Column(name = "calle")
     protected String calle;
-    @XmlAttribute(name = "Localidad")
-    @Column(name = "localidad")
-    protected String localidad;
     @XmlAttribute(name = "NoInterior")
     @Column(name = "no_interior")
     protected String noInterior;
