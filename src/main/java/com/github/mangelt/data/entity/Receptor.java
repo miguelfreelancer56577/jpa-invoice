@@ -10,7 +10,9 @@ package com.github.mangelt.data.entity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -62,8 +64,11 @@ import lombok.Data;
 @Data
 public class Receptor extends RootEntity {
 
+	@XmlTransient
+	@OneToOne(targetEntity = Comprobante.class, mappedBy = "receptor")
+	protected Comprobante comprobante;
     @XmlElement(name = "Domicilio", required = true)
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(columnDefinition = "id")
     protected Domicilio domicilio;
     @XmlAttribute(name = "Rfc")

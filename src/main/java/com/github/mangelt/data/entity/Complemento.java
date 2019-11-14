@@ -68,6 +68,10 @@ import lombok.NoArgsConstructor;
 @Table(name = "complemento")
 public class Complemento extends RootEntity{
 
+	@XmlTransient
+	@OneToOne(mappedBy = "complemento")
+	protected Comprobante comprobante;
+	
     @XmlElement(name = "Aerolineas", namespace = "http://www.sat.gob.mx/aerolineas", required = false)
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(columnDefinition = "id")
