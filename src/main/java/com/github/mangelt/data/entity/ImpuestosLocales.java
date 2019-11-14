@@ -22,6 +22,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -114,13 +115,11 @@ public class ImpuestosLocales extends RootEntity {
     
 //    separated relationship to the tables retenciones_locales and traslados_locales
     
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(columnDefinition = "id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "impuestosLocales")
     @Setter(value = AccessLevel.NONE)
     protected List<RetencionesLocales> retencionesLocales;
     
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(columnDefinition = "id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "impuestosLocales")
     @Setter(value = AccessLevel.NONE)
     protected List<TrasladosLocales> trasladosLocales;
     
@@ -202,13 +201,11 @@ public class ImpuestosLocales extends RootEntity {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class RetencionesLocales {
-    	
-    	@Id
-        @Column(name = "id", nullable = false, unique = true)
-        @GeneratedValue(strategy = GenerationType.AUTO)
-        @XmlTransient
-        protected int id;
+    public static class RetencionesLocales extends RootEntity{
+
+    	@XmlTransient
+    	@ManyToOne
+    	protected ImpuestosLocales impuestosLocales;
 
         @XmlAttribute(name = "ImpLocRetenido", required = true)
         @Column(name = "imp_loc_retenido", nullable = false)
@@ -251,13 +248,11 @@ public class ImpuestosLocales extends RootEntity {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class TrasladosLocales {
+    public static class TrasladosLocales extends RootEntity {
 
-    	@Id
-        @Column(name = "id", nullable = false, unique = true)
-        @GeneratedValue(strategy = GenerationType.AUTO)
-        @XmlTransient
-        protected int id;
+    	@XmlTransient
+    	@ManyToOne
+    	protected ImpuestosLocales impuestosLocales;
     	
         @XmlAttribute(name = "ImpLocTrasladado", required = true)
         @Column(name = "imp_loc_trasladado", nullable = false)

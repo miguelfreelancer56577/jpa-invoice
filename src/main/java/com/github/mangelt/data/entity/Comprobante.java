@@ -106,7 +106,7 @@ public class Comprobante extends RootEntity{
     @Transient
     @Setter(value = AccessLevel.NONE)
     protected Conceptos concepto;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "comprobante")
     @Setter(value = AccessLevel.NONE)
     protected List<Concepto> conceptos;
     @XmlElement(name = "Impuestos", required = true)

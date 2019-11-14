@@ -77,13 +77,13 @@ public class Impuestos extends RootEntity {
     @XmlElement(name = "Retenciones", required = true)
     @Transient
     protected Retenciones retenciones;
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "impuestos")
     protected List<Retencion> retencionesList;
     
     @XmlElement(name = "Traslados", required = true)
     @Transient
     protected Traslados traslados;
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "impuestos")
     protected List<Traslado> trasladosList;
     
     

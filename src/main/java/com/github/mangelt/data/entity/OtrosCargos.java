@@ -70,7 +70,7 @@ import lombok.NoArgsConstructor;
 public class OtrosCargos extends RootEntity {
 	
     @XmlElement(name = "Cargo", namespace = "http://www.sat.gob.mx/aerolineas")
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "otrosCargos")
     protected List<Cargo> cargo;
     @XmlAttribute(name = "TotalCargos")
     protected Float totalCargos;
