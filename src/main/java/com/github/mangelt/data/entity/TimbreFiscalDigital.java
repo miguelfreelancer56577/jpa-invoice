@@ -62,13 +62,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "timbre_fiscal_digital")
-public class TimbreFiscalDigital {
-	
-	@Id
-    @Column(name = "id", nullable = false, unique = true)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @XmlTransient
-    protected int id;
+public class TimbreFiscalDigital extends RootEntity {
 
     @XmlAttribute(name = "Version", required = true)
     @XmlSchemaType(name = "anySimpleType")

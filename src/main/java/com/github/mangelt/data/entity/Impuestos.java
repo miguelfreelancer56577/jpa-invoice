@@ -67,13 +67,7 @@ import lombok.ToString;
 @Table(name = "impuestos")
 @Data
 @ToString
-public class Impuestos {
-	
-	@Id
-    @Column(name = "id", nullable = false, unique = true)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-	@XmlTransient
-    protected int id;
+public class Impuestos extends RootEntity {
 
     @XmlElement(name = "Retenciones", required = true)
     @Transient

@@ -52,13 +52,8 @@ import lombok.Data;
 @Data
 @Table(name = "regimen_fiscal")
 @Entity
-public class RegimenFiscal {
+public class RegimenFiscal extends RootEntity {
 
-    @Id
-    @Column(name = "id", nullable = false, unique = true)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @XmlTransient
-    protected int id;
     @XmlValue
     @Column(name = "value")
     protected String value;

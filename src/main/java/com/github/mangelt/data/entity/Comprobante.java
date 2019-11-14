@@ -105,13 +105,8 @@ import lombok.ToString;
 @Entity(name = "Comprobante")
 @Table(name = "comprobante")
 @Data
-public class Comprobante {
+public class Comprobante extends RootEntity{
 
-	@XmlTransient
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_comprobante", nullable = false, unique = true)
-	protected int id;
     @XmlElement(name = "Emisor", required = true)
     @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
     @JoinColumn(nullable = false, columnDefinition = "id")

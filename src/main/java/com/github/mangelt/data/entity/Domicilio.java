@@ -59,12 +59,7 @@ import lombok.Data;
 @Table
 @Entity(name = "domicilio")
 @Data
-public class Domicilio {
-
-    @Column(name = "id", nullable = false, unique = true)
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    protected int id;
+public class Domicilio extends RootEntity {
     @XmlValue
     @Column(name = "value")
     protected String value;

@@ -25,7 +25,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Data;
 
-
 /**
  * <p>Clase Java para anonymous complex type.
  * 
@@ -60,13 +59,7 @@ import lombok.Data;
 @Entity
 @Table(name = "domicilio_fiscal")
 @Data
-public class DomicilioFiscal {
-
-    @Id
-    @Column(name = "id", nullable = false, unique = true)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @XmlTransient
-    protected int id;
+public class DomicilioFiscal extends RootEntity {
     @XmlValue
     @Column(name = "value")
     protected String value;

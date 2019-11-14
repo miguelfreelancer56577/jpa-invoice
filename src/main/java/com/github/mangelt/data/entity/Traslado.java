@@ -56,14 +56,8 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "traslado")
-public class Traslado {
+public class Traslado extends RootEntity {
 
-	@Id
-    @Column(name = "id", nullable = false, unique = true)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-	@XmlTransient
-    protected int id;
-	
     @XmlValue
     protected String value;
     @XmlAttribute(name = "Importe")

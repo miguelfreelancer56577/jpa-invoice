@@ -102,13 +102,7 @@ import lombok.Setter;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Entity
 @Table(name = "impuestos_locales")
-public class ImpuestosLocales {
-
-	@Id
-    @Column(name = "id", nullable = false, unique = true)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @XmlTransient
-    protected int id;
+public class ImpuestosLocales extends RootEntity {
 	
     @XmlElements({
         @XmlElement(name = "RetencionesLocales", namespace = "http://www.sat.gob.mx/implocal", type = ImpuestosLocales.RetencionesLocales.class),

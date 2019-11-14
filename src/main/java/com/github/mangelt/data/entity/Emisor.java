@@ -64,13 +64,8 @@ import lombok.Data;
 @Entity
 @Table(name = "emisor")
 @Data
-public class Emisor {
+public class Emisor extends RootEntity {
 
-    @Id
-    @Column(name = "id", nullable = false, unique = true)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @XmlTransient
-    protected int id;
     @XmlElement(name = "DomicilioFiscal", required = true)
     @OneToOne(orphanRemoval = true, optional = false, cascade = CascadeType.ALL)
     @JoinColumn(columnDefinition = "id")

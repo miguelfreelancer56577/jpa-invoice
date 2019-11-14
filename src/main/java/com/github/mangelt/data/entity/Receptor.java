@@ -60,13 +60,8 @@ import lombok.Data;
 @Entity
 @Table(name = "receptor")
 @Data
-public class Receptor {
+public class Receptor extends RootEntity {
 
-    @Id
-    @Column(name = "id", nullable = false, unique = true)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @XmlTransient
-    protected int id;
     @XmlElement(name = "Domicilio", required = true)
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(columnDefinition = "id")

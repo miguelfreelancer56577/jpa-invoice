@@ -67,13 +67,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OtrosCargos {
-
-	@Id
-    @Column(name = "id", nullable = false, unique = true)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @XmlTransient
-    protected int id;
+public class OtrosCargos extends RootEntity {
 	
     @XmlElement(name = "Cargo", namespace = "http://www.sat.gob.mx/aerolineas")
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)

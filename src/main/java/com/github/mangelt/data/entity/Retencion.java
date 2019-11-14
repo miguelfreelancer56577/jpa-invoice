@@ -54,14 +54,8 @@ import lombok.Data;
 @Data
 @Entity(name = "Retencion")
 @Table(name = "retencion")
-public class Retencion {
+public class Retencion extends RootEntity {
 
-	@Id
-    @Column(name = "id", nullable = false, unique = true)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-	@XmlTransient
-    protected int id;
-	
     @XmlValue
     protected String value;
     @XmlAttribute(name = "Impuesto")

@@ -58,13 +58,7 @@ import lombok.Data;
 @Entity(name = "Concepto")
 @Table(name = "concepto")
 @Data
-public class Concepto {
-
-	@Id
-    @Column(name = "id", nullable = false, unique = true)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @XmlTransient
-    protected int id;
+public class Concepto extends RootEntity {
     @XmlValue
     @Column(name = "value")
     protected String value;

@@ -60,13 +60,8 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "expedido_en")
-public class ExpedidoEn {
+public class ExpedidoEn extends RootEntity {
 
-    @Id
-    @Column(name = "id", nullable = false, unique = true)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @XmlTransient
-    protected int id;
     @XmlValue
     @Column(name = "value")
     protected String value;

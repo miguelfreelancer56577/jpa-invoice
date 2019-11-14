@@ -66,13 +66,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "complemento")
-public class Complemento {
-	
-	@Id
-    @Column(name = "id", nullable = false, unique = true)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @XmlTransient
-    protected int id;
+public class Complemento extends RootEntity{
 
     @XmlElement(name = "Aerolineas", namespace = "http://www.sat.gob.mx/aerolineas", required = false)
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
